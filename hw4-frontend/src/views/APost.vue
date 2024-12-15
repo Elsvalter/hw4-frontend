@@ -1,21 +1,23 @@
 <template>
-  <div class="A Post">
+  <div class="APost">
     <div id="form">
-      <h3>A Post</h3>
+      <h3>Update Post</h3>
       <label for="title">Title: </label>
-      <input name="type" type="text" id="title" required v-model="post.title" />
+      <input name="title" type="text" id="title" required v-model="post.title" />
+      
       <label for="body">Body: </label>
       <input name="body" type="text" id="body" required v-model="post.body" />
-      <label for="url">Url: </label>
-      <input name="url" type="text" id="url" required v-model="post.urllink" />
+      
+      <label for="urllink">Url: </label>
+      <input name="urllink" type="text" id="urllink" required v-model="post.urllink" />
     </div>
+    
     <div>
       <button @click="updatePost" class="updatePost">Update Post</button>
       <button @click="deletePost" class="deletePost">Delete Post</button>
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -32,14 +34,16 @@ export default {
   },
   methods: {
     fetchAPost(id) {
-      // fetch one post with the specied id (id)
       fetch(`http://localhost:3000/api/posts/${id}`)
         .then((response) => response.json())
-        .then((data) => (this.post = data))
-        .catch((err) => console.log(err.message));
+        .then((data) => {
+          this.post = data;
+        })
+        .catch(() => {
+          console.log("Error fetching post");
+        });
     },
     updatePost() {
-      // using Fetch - put method - updates a specific post based on the passed id and the specified body
       fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
         method: "PUT",
         headers: {
@@ -47,37 +51,28 @@ export default {
         },
         body: JSON.stringify(this.post),
       })
-        .then((response) => {
-          console.log(response.data);
-          //this.$router.push("/apost/" + this.post.id);
-          // We are using the router instance of this element to navigate to a different URL location
-          this.$router.push("/api/allposts");
+        .then((response) => response.json())
+        .then(() => {
+          this.$router.push("/api/allposts"); // Redirect after update
         })
-        .catch((e) => {
-          console.log(e);
+        .catch(() => {
+          console.log("Error updating post");
         });
     },
     deletePost() {
-      // using Fetch - delete method - delets a specific post based on the passed id
       fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       })
-        .then((response) => {
-          console.log(response.data);
-          // We are using the router instance of this element to navigate to a different URL location
-          this.$router.push("/api/allposts");
+        .then(() => {
+          this.$router.push("/api/allposts"); // Redirect after deletion
         })
-        .catch((e) => {
-          console.log(e);
+        .catch(() => {
+          console.log("Error deleting post");
         });
     },
   },
   mounted() {
-    // call fetchAPost() when this element mounts, and pass to it a route parameter  (id)
-    // Route parameters (this.$route.params.id) are named URL segments that are used to capture the values specified at their 
-    // position in the URL. The captured values are populated in the req.params object, with the name 
-    // of the route parameter specified in the path as their respective keys
     this.fetchAPost(this.$route.params.id);
   },
 };

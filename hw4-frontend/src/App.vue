@@ -1,8 +1,9 @@
 <template>
   <div>
     <nav>
-      <router-link to="/api/allposts">Posts</router-link> |
-      <router-link to="/api/addpost">Add a Post</router-link>
+      <!-- Õiged lingid, ei tohiks olla /api -->
+      <router-link to="/allposts">Posts</router-link> |
+      <router-link to="/addpost">Add a Post</router-link>
     </nav>
     <router-view />
   </div>

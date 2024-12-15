@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="form-container">
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
@@ -29,6 +30,18 @@
     <div class="signup-link">
       <p>Don't have an account? <a @click="redirectToSignup">Sign up</a></p>
     </div>
+=======
+  <div class="form">
+    <h3>Login</h3>
+    <label for="username">Username: </label>
+    <input name="username" type="text" id="username" required v-model="username" />
+
+    <label for="password">Password: </label>
+    <input name="password" type="password" id="password" required v-model="password" />
+
+    <button @click="login">Log In</button>
+    <p>Don't have an account? <router-link to="/signup">Sign Up</router-link></p>
+>>>>>>> 14af949c98d4c1c45fbc907c83f47d2cccd64d10
   </div>
 </template>
 
@@ -37,6 +50,7 @@ export default {
   name: "LoginPage",
   data() {
     return {
+<<<<<<< HEAD
       email: '',
       password: '',
       passwordError: ''
@@ -71,10 +85,44 @@ export default {
       this.$router.push('/signup');
     }
   }
+=======
+      username: "",
+      password: "",
+    };
+  },
+  methods: {
+    login() {
+      fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: this.username,
+          password: this.password,
+        }),
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Login failed');
+          }
+          return response.json();
+        })
+        .then(data => {
+          localStorage.setItem('token', data.token);
+          this.$router.push('/allposts');
+        })
+        .catch(error => {
+          console.error('Login error:', error);
+        });
+    },
+  },
+>>>>>>> 14af949c98d4c1c45fbc907c83f47d2cccd64d10
 };
 </script>
 
 <style scoped>
+<<<<<<< HEAD
 .form-container {
   background-color: rgba(243, 237, 232, 0.8);
   padding: 20px;
@@ -119,3 +167,6 @@ button:disabled {
   font-size: 12px;
 }
 </style>
+=======
+</style>
+>>>>>>> 14af949c98d4c1c45fbc907c83f47d2cccd64d10

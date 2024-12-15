@@ -1,41 +1,22 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import AllPosts from "../views/AllPosts.vue";
-import APost from "../views/APost.vue";
-import AddPost from "../views/AddPost.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import AllPosts from '../views/AllPosts.vue';
+import LoginPage from '../views/LoginPage.vue';
+import SignupPage from '../views/SignupPage.vue';
+import AddPost from '../views/AddPost.vue';
+import ContactPage from '../views/ContactPage.vue';
 
-const routes = [{
-        path: '/',
-        name: 'AllPosts',
-        component: () =>
-            import ("../views/AllPosts.vue")
-    },
-    {
-        path: "/api/allposts",
-        name: "AllPosts",
-        component: AllPosts,
-    },
-    {
-        path: "/api/apost/:id",
-        name: "APost",
-        component: APost,
-    },
-    {
-        path: "/api/addpost",
-        name: "AddPost",
-        component: AddPost,
-    },
-    { //will route to AllPosts view if none of the previous routes apply
-        path: "/:catchAll(.*)",
-        name: "AllPosts",
-        component: AllPosts,
-    }
-]
+const routes = [
+  { path: '/', name: 'Login', component: LoginPage },
+  { path: '/login', name: 'Login', component: LoginPage },
+  { path: '/signup', name: 'Signup', component: SignupPage },
+  { path: '/allposts', name: 'AllPosts', component: AllPosts },
+  { path: '/addpost', name: 'AddPost', component: AddPost },
+  { path: '/contact', name: 'Contact', component: ContactPage },
+];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes
-})
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+});
 
-
-
-export default router
+export default router;
