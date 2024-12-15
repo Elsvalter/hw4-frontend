@@ -2,8 +2,8 @@
   <div>
     <nav>
       <!-- Õiged lingid, ei tohiks olla /api -->
-      <router-link to="/allposts">Posts</router-link> |
-      <router-link to="/addpost">Add a Post</router-link>
+      <router-link to="/allposts">Home</router-link> |
+      <router-link to="/contact">Contacts</router-link>
     </nav>
     <router-view />
   </div>
