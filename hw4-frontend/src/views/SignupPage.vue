@@ -100,15 +100,8 @@ export default {
         }
       } catch (err) {
         console.error('Error occurred during signup:', err);
-      });
+      }
     }
-  })
-  .catch(err => {
-    console.error('Error occurred during email check:', err);
-  });
-}
-
-
   },
   watch: {
     password(newPassword) {
