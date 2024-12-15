@@ -2,11 +2,9 @@
   <div>
     <h1>Add New Post</h1>
     <form @submit.prevent="addPost">
-      <label for="title">Title:</label>
-      <input type="text" id="title" v-model="title" required />
-
-      <label for="body">Body:</label>
-      <textarea id="body" v-model="body" required></textarea>
+  
+      <label for="content">Body:</label>
+      <textarea id="content" v-model="content" required></textarea>
 
       <button type="submit">Add Post</button>
     </form>
@@ -18,22 +16,21 @@ export default {
   name: "AddPost",
   data() {
     return {
-      title: "",
-      body: "",
+      content: ""
     };
   },
   methods: {
     addPost() {
+      var data = {
+        content: this.content
+      };
       fetch('http://localhost:3000/api/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify({
-          title: this.title,
-          body: this.body,
-        }),
+        body: JSON.stringify(data)
       })
         .then(response => response.json())
         .then(() => {

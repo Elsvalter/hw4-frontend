@@ -6,7 +6,7 @@
       <ul>
         <div class="item" v-for="post in posts" :key="post.id">
           <router-link :to="'/apost/' + post.id">
-            <span class="title">{{ post.title }}</span>
+            <span class="id">{{ post.id }}</span>
           </router-link>
         </div>
       </ul>
@@ -67,4 +67,13 @@ export default {
 </script>
 
 <style scoped>
+.post {
+  background-color: rgba(243, 237, 232, 0.847);
+  border-radius: 7px;
+  margin-bottom: 20px;
+  padding: 8px;
+  width: 430px;
+  border: 1px solid #000;
+}
+
 </style>
