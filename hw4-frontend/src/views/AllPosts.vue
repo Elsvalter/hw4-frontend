@@ -11,10 +11,6 @@
         </div>
       </ul>
     </div>
-    <div class="footer">
-      <button @click="goToHome">Home</button>
-      <button @click="goToContacts">Contacts</button>
-    </div>
     <button @click="deleteAllPosts">Delete All</button>
     <button @click="addPost">Add Post</button>
   </div>
@@ -43,12 +39,6 @@ export default {
     logout() {
       localStorage.removeItem('token');
       this.$router.push('/login');
-    },
-    goToHome() {
-      this.$router.push('/allposts');
-    },
-    goToContacts() {
-      this.$router.push('/contact');
     },
     deleteAllPosts() {
       fetch('http://localhost:3000/api/posts', {
