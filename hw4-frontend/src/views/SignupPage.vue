@@ -67,41 +67,45 @@ export default {
       }
       return '';
     },
-    async handleSubmit() {
-      try {
-        const response = await fetch('http://localhost:3000/auth/check-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: this.email })
-        });
-
-        const data = await response.json();
-
-        if (data.exists) {
-          this.emailError = 'This email is already registered.';
-          return;
+    handleSubmit() {
+  fetch('http://localhost:3000/auth/check-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: this.email })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.exists) {
+      this.emailError = 'This email is already registered.';
+      return;
+    } else {
+      this.emailError = '';
+      // Proceed with signup
+      fetch('http://localhost:3000/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: this.email, password: this.password }),
+        credentials: 'include'  // Added missing comma here
+      })
+      .then(signupResponse => signupResponse.json())
+      .then(signupData => {
+        if (signupData.ok) {  // Corrected reference to 'signupData'
+          this.$router.push('/login');
         } else {
-          this.emailError = '';
-          // Proceed with signup
-          const signupResponse = await fetch('http://localhost:3000/auth/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: this.email, password: this.password })
-            credentials: 'include'
-          });
-
-          const signupData = await signupResponse.json();
-
-          if (signupResponse.ok) {
-            this.$router.push('/login');
-          } else {
-            console.error('Signup failed:', signupData.error);
-          }
+          console.error('Signup failed:', signupData.error);
         }
-      } catch (err) {
+      })
+      .catch(err => {
         console.error('Error occurred during signup:', err);
-      }
+      });
     }
+  })
+  .catch(err => {
+    console.error('Error occurred during email check:', err);
+  });
+}
+
+
   },
   watch: {
     password(newPassword) {
