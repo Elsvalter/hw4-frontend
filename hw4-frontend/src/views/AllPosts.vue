@@ -5,15 +5,11 @@
       <h1>All Posts</h1>
       <ul>
         <div class="item" v-for="post in posts" :key="post.id">
-          <router-link :to="'/apost' + post.id">
-            <span class="title">{{ post.title }}</span>
-          </router-link>
+          <a :href="'/api/apost/' + post.id">
+            <span class="id">{{ post.id }}</span>
+          </a>
         </div>
       </ul>
-    </div>
-    <div class="footer">
-      <button @click="goToHome">Home</button>
-      <button @click="goToContacts">Contacts</button>
     </div>
     <button @click="deleteAllPosts">Delete All</button>
     <button @click="addPost">Add Post</button>
@@ -44,13 +40,6 @@ export default {
       localStorage.removeItem('token');
       this.$router.push('/');
     },
-    goToHome() {
-      
-      this.$router.push('/allposts');
-    },
-    goToContacts() {
-      this.$router.push('/contact');
-    },
     deleteAllPosts() {
       fetch('http://localhost:3000/api/posts', {
         method: 'DELETE',
@@ -72,10 +61,20 @@ export default {
       this.$router.push('/');
     } else {
       this.fetchPosts();
+      console.log("mounted")
     }
   },
 };
 </script>
 
 <style scoped>
+.post {
+  background-color: rgba(243, 237, 232, 0.847);
+  border-radius: 7px;
+  margin-bottom: 20px;
+  padding: 8px;
+  width: 430px;
+  border: 1px solid #000;
+}
+
 </style>

@@ -2,16 +2,9 @@
   <div class="APost">
     <div id="form">
       <h3>Update Post</h3>
-      <label for="title">Title: </label>
-      <input name="title" type="text" id="title" required v-model="post.title" />
-      
-      <label for="body">Body: </label>
-      <input name="body" type="text" id="body" required v-model="post.body" />
-      
-      <label for="urllink">Url: </label>
-      <input name="urllink" type="text" id="urllink" required v-model="post.urllink" />
+      <label for="content">Body: </label>
+      <input name="content" type="text" id="content" placeholder={{post.content}} required v-model="post.content" />
     </div>
-    
     <div>
       <button @click="updatePost" class="updatePost">Update Post</button>
       <button @click="deletePost" class="deletePost">Delete Post</button>
@@ -26,9 +19,8 @@ export default {
     return {
       post: {
         id: "",
-        title: "",
-        body: "",
-        urllink: "",
+        content : "",
+        created_at: ""
       },
     };
   },
@@ -36,12 +28,8 @@ export default {
     fetchAPost(id) {
       fetch(`http://localhost:3000/api/posts/${id}`)
         .then((response) => response.json())
-        .then((data) => {
-          this.post = data;
-        })
-        .catch(() => {
-          console.log("Error fetching post");
-        });
+        .then((data) => (this.post = data))
+        .catch((err) => console.log(err.message));
     },
     updatePost() {
       fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
@@ -53,7 +41,7 @@ export default {
       })
         .then((response) => response.json())
         .then(() => {
-          this.$router.push("/api/allposts"); // Redirect after update
+          this.$router.push("/allposts"); // Redirect after update
         })
         .catch(() => {
           console.log("Error updating post");
@@ -65,7 +53,7 @@ export default {
         headers: { "Content-Type": "application/json" },
       })
         .then(() => {
-          this.$router.push("/api/allposts"); // Redirect after deletion
+          this.$router.push("/allposts"); // Redirect after deletion
         })
         .catch(() => {
           console.log("Error deleting post");
