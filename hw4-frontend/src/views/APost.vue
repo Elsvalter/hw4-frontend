@@ -3,7 +3,7 @@
     <div id="form">
       <h3>Update Post</h3>
       <label for="content">Body: </label>
-      <input name="content" type="text" id="content" placeholder={{post.content}} v-model="post.content" />
+      <input name="content" type="text" id="content" placeholder={{post.content}} required v-model="post.content" />
     </div>
     <div>
       <button @click="updatePost" class="updatePost">Update Post</button>
@@ -28,12 +28,8 @@ export default {
     fetchAPost(id) {
       fetch(`http://localhost:3000/api/posts/${id}`)
         .then((response) => response.json())
-        .then((data) => {
-          this.post = data;
-        })
-        .catch(() => {
-          console.log("Error fetching post");
-        });
+        .then((data) => (this.post = data))
+        .catch((err) => console.log(err.message));
     },
     updatePost() {
       fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
@@ -45,7 +41,7 @@ export default {
       })
         .then((response) => response.json())
         .then(() => {
-          this.$router.push("/api/allposts"); // Redirect after update
+          this.$router.push("/allposts"); // Redirect after update
         })
         .catch(() => {
           console.log("Error updating post");

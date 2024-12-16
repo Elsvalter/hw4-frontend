@@ -13,7 +13,9 @@ const routes = [
   { path: '/allposts', name: 'AllPosts', component: AllPosts },
   { path: '/addpost', name: 'AddPost', component: AddPost },
   { path: '/contact', name: 'Contact', component: ContactPage },
-  { path: '/apost', name: 'APost', component: APost}
+  { path: '/api/apost/:id', 
+    name: 'APost', 
+    component: APost}
 ];
 
 const router = createRouter({

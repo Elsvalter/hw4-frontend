@@ -5,9 +5,9 @@
       <h1>All Posts</h1>
       <ul>
         <div class="item" v-for="post in posts" :key="post.id">
-          <router-link :to="'/apost/' + post.id">
+          <a :href="'/api/apost/' + post.id">
             <span class="id">{{ post.id }}</span>
-          </router-link>
+          </a>
         </div>
       </ul>
     </div>
@@ -61,6 +61,7 @@ export default {
       this.$router.push('/login');
     } else {
       this.fetchPosts();
+      console.log("mounted")
     }
   },
 };
