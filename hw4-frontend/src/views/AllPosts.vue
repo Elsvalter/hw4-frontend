@@ -2,7 +2,6 @@
   <div class="AllPosts">
     <button @click="logout">Logout</button>
     <div id="post-list">
-      <h1>All Posts</h1>
       <ul>
         <div class="post-item" v-for="post in posts" :key="post.id">
           <div class="post-box" @click="goToPost(post.id)">
