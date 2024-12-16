@@ -88,6 +88,13 @@ export default {
   margin-bottom: 20px;
 }
 
+#post-list {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column;
+}
 .post-box {
   background-color: rgba(243, 237, 232, 0.847);
   border-radius: 7px;
