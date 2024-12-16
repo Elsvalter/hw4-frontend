@@ -4,10 +4,13 @@
     <div id="post-list">
       <h1>All Posts</h1>
       <ul>
-        <div class="item" v-for="post in posts" :key="post.id">
-          <a :href="'/api/apost/' + post.id">
-            <span class="id">{{ post.id }}</span>
-          </a>
+        <div class="post-item" v-for="post in posts" :key="post.id">
+          <div class="post-box" @click="goToPost(post.id)">
+            <div class="post-content">
+              <p>{{ post.content }}</p>
+              <span class="post-date">{{ new Date(post.created_at).toLocaleString() }}</span>
+            </div>
+          </div>
         </div>
       </ul>
     </div>
@@ -40,30 +43,32 @@ export default {
       localStorage.removeItem('token');
       this.$router.push('/');
     },
-    deleteAllPosts() {
-  fetch('http://localhost:3000/api/posts', {
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      'Content-Type': 'application/json',
+    goToPost(postId) {
+      this.$router.push(`/api/apost/${postId}`);
     },
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Failed to delete posts: ${response.statusText}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("All posts deleted:", data);
-      this.fetchPosts(); // Refresh the posts list
-    })
-    .catch(error => {
-      console.error("Delete all error:", error);
-      alert("Failed to delete all posts. Please try again.");
-    });
-},
-
+    deleteAllPosts() {
+      fetch('http://localhost:3000/api/posts', {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Failed to delete posts: ${response.statusText}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log("All posts deleted:", data);
+          this.fetchPosts(); // Refresh the posts list
+        })
+        .catch(error => {
+          console.error("Delete all error:", error);
+          alert("Failed to delete all posts. Please try again.");
+        });
+    },
     addPost() {
       this.$router.push('/addpost');
     },
@@ -73,20 +78,39 @@ export default {
       this.$router.push('/');
     } else {
       this.fetchPosts();
-      console.log("mounted")
     }
   },
 };
 </script>
 
 <style scoped>
-.post {
-  background-color: rgba(243, 237, 232, 0.847);
-  border-radius: 7px;
+.post-item {
   margin-bottom: 20px;
-  padding: 8px;
-  width: 430px;
-  border: 1px solid #000;
 }
 
+.post-box {
+  background-color: rgba(243, 237, 232, 0.847);
+  border-radius: 7px;
+  padding: 15px;
+  width: 430px;
+  border: 1px solid #000;
+  position: relative;
+  cursor: pointer; /* Muudab kursorit, et see oleks klikitav */
+}
+
+.post-content {
+  margin-bottom: 10px;
+}
+
+.post-date {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.8em;
+  color: gray;
+}
+
+.post-box:hover {
+  background-color: rgba(0, 166, 249, 0.2); /* Hover efekti lisamine */
+}
 </style>
