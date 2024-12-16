@@ -53,7 +53,7 @@ export default {
         headers: { "Content-Type": "application/json" },
       })
         .then(() => {
-          this.$router.push("/api/allposts"); // Redirect after deletion
+          this.$router.push("/allposts"); // Redirect after deletion
         })
         .catch(() => {
           console.log("Error deleting post");
