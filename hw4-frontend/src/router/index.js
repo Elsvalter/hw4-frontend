@@ -6,13 +6,13 @@ import AddPost from '../views/AddPost.vue';
 import ContactPage from '../views/ContactPage.vue';
 
 const routes = [
-  { path: '/', name: 'Login', component: LoginPage },
-  { path: '/login', name: 'Login', component: LoginPage },
+  { path: '/', name: 'Home', component: LoginPage },
   { path: '/signup', name: 'Signup', component: SignupPage },
   { path: '/allposts', name: 'AllPosts', component: AllPosts },
   { path: '/addpost', name: 'AddPost', component: AddPost },
   { path: '/contact', name: 'Contact', component: ContactPage },
 ];
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

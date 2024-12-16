@@ -5,7 +5,7 @@
       <h1>All Posts</h1>
       <ul>
         <div class="item" v-for="post in posts" :key="post.id">
-          <router-link :to="'/apost/' + post.id">
+          <router-link :to="'/apost' + post.id">
             <span class="title">{{ post.title }}</span>
           </router-link>
         </div>
@@ -42,9 +42,10 @@ export default {
     },
     logout() {
       localStorage.removeItem('token');
-      this.$router.push('/login');
+      this.$router.push('/');
     },
     goToHome() {
+      
       this.$router.push('/allposts');
     },
     goToContacts() {
@@ -68,7 +69,7 @@ export default {
   },
   mounted() {
     if (!this.isUserLoggedIn) {
-      this.$router.push('/login');
+      this.$router.push('/');
     } else {
       this.fetchPosts();
     }

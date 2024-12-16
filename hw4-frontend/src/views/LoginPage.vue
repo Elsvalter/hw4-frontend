@@ -59,7 +59,7 @@ export default {
 
         if (response.ok) {
           localStorage.setItem('token', data.token);
-          this.$router.push('/home');
+          this.$router.push('/AllPosts');
         } else {
           this.error = data.message || 'Invalid credentials';
         }
