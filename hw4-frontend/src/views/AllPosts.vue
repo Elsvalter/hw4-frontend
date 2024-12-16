@@ -41,17 +41,29 @@ export default {
       this.$router.push('/');
     },
     deleteAllPosts() {
-      fetch('http://localhost:3000/api/posts', {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then(() => {
-          this.fetchPosts();
-        })
-        .catch(error => console.error('Delete all error:', error));
+  fetch('http://localhost:3000/api/posts', {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      'Content-Type': 'application/json',
     },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Failed to delete posts: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("All posts deleted:", data);
+      this.fetchPosts(); // Refresh the posts list
+    })
+    .catch(error => {
+      console.error("Delete all error:", error);
+      alert("Failed to delete all posts. Please try again.");
+    });
+},
+
     addPost() {
       this.$router.push('/addpost');
     },
