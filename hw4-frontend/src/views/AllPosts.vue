@@ -1,6 +1,6 @@
 <template>
   <div class="AllPosts">
-    <button @click="logout">Logout</button>
+    <button class="button" @click="logout">Logout</button>
     <div id="post-list">
       <ul>
         <div class="post-item" v-for="post in posts" :key="post.id">
@@ -13,18 +13,21 @@
         </div>
       </ul>
     </div>
-    <button @click="deleteAllPosts">Delete All</button>
-    <button @click="addPost">Add Post</button>
+    <button class="button" @click="deleteAllPosts">Delete All</button>
+    <button class="button" @click="addPost">Add Post</button>
   </div>
 </template>
 
 <script>
+import auth from "../auth";
+
 export default {
   name: "AllPosts",
   data() {
     return {
       posts: [],
-    };
+      authResult: auth.authenticated()
+    }
   },
   computed: {
     isUserLoggedIn() {
@@ -39,8 +42,22 @@ export default {
         .catch(err => console.error('Error fetching posts:', err));
     },
     logout() {
-      localStorage.removeItem('token');
-      this.$router.push('/');
+      fetch("http://localhost:3000/auth/logout", {
+          credentials: 'include', // for cookies
+      })
+      .then((response) => response.json)
+      .then((data) => {
+        console.log(data);
+        console.log('jwt removed from logout');
+        localStorage.removeItem('token');
+        this.$router.push('/');
+      })
+      .catch((e) => {
+        console.log(e);
+        console.log("error logout");
+      }
+      )
+     
     },
     goToPost(postId) {
       this.$router.push(`/api/apost/${postId}`);
@@ -49,7 +66,6 @@ export default {
       fetch('http://localhost:3000/api/posts', {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
           'Content-Type': 'application/json',
         },
       })
@@ -119,4 +135,18 @@ export default {
 .post-box:hover {
   background-color: rgba(0, 166, 249, 0.2); /* Hover efekti lisamine */
 }
+
+button {
+  background: rgb(8, 110, 110);
+  border: 0;
+  padding: 10px 20px;
+  margin-top: 20px;
+  color: white;
+  border-radius: 20px;
+}
+
+button:hover {
+  background: rgb(12, 150, 150);
+}
+
 </style>

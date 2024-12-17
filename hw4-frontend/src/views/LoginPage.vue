@@ -53,6 +53,7 @@ export default {
         const response = await fetch('http://localhost:3000/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({ email: this.email, password: this.password })
         });
         const data = await response.json();
@@ -117,5 +118,9 @@ button:disabled {
 .error {
   color: red;
   font-size: 12px;
+}
+
+a:hover {
+  color: rgb(11, 170, 11);
 }
 </style>

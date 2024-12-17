@@ -117,4 +117,8 @@ button {
   color: white;
   border-radius: 20px;
 }
+
+button:hover {
+  background: rgb(12, 150, 150);
+}
 </style>

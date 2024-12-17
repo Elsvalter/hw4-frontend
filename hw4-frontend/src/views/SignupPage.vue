@@ -86,13 +86,14 @@ export default {
           const signupResponse = await fetch('http://localhost:3000/auth/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({ email: this.email, password: this.password })
           });
 
           const signupData = await signupResponse.json();
 
           if (signupResponse.ok) {
-            this.$router.push('/');
+            this.$router.push('/allposts');
           } else {
             console.error('Signup failed:', signupData.error);
           }
