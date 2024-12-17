@@ -2,13 +2,14 @@
   <div class="AllPosts">
     <button @click="logout">Logout</button>
     <div id="post-list">
-      <h1>All Posts</h1>
       <ul>
-        <div class="item" v-for="post in posts" :key="post.id">
-          <a class ="singlepost" :href="'/api/apost/' + post.id">
-            <span class="date">{{ new Date(post.created_at).toDateString() }}</span> <br/>
-            <span class="content">{{ post.content }}</span>
-          </a>
+        <div class="post-item" v-for="post in posts" :key="post.id">
+          <div class="post-box" @click="goToPost(post.id)">
+            <div class="post-content">
+              <p>{{ post.content }}</p>
+              <span class="post-date">{{ new Date(post.created_at).toLocaleString() }}</span>
+            </div>
+          </div>
         </div>
       </ul>
     </div>
@@ -39,19 +40,33 @@ export default {
     },
     logout() {
       localStorage.removeItem('token');
-      this.$router.push('/login');
+      this.$router.push('/');
+    },
+    goToPost(postId) {
+      this.$router.push(`/api/apost/${postId}`);
     },
     deleteAllPosts() {
       fetch('http://localhost:3000/api/posts', {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          'Content-Type': 'application/json',
         },
       })
-        .then(() => {
-          this.fetchPosts();
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Failed to delete posts: ${response.statusText}`);
+          }
+          return response.json();
         })
-        .catch(error => console.error('Delete all error:', error));
+        .then(data => {
+          console.log("All posts deleted:", data);
+          this.fetchPosts(); // Refresh the posts list
+        })
+        .catch(error => {
+          console.error("Delete all error:", error);
+          alert("Failed to delete all posts. Please try again.");
+        });
     },
     addPost() {
       this.$router.push('/addpost');
@@ -59,43 +74,49 @@ export default {
   },
   mounted() {
     if (!this.isUserLoggedIn) {
-      this.$router.push('/login');
+      this.$router.push('/');
     } else {
       this.fetchPosts();
-      console.log("mounted")
     }
   },
 };
 </script>
 
 <style scoped>
-.post {
+.post-item {
+  margin-bottom: 20px;
+}
+
+#post-list {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column;
+}
+.post-box {
   background-color: rgba(243, 237, 232, 0.847);
   border-radius: 7px;
-  margin-bottom: 20px;
-  padding: 8px;
+  padding: 15px;
   width: 430px;
   border: 1px solid #000;
-}
-a {
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-.item {
-  background: rgb(189, 212, 199);
-  margin-bottom: 5px;
-  padding: 3px 5px;
-  border-radius: 10px;
+  position: relative;
+  cursor: pointer; /* Muudab kursorit, et see oleks klikitav */
 }
 
-#post-list li {
-  display: inline-block;
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.7);
+.post-content {
+  margin-bottom: 10px;
 }
 
+.post-date {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.8em;
+  color: gray;
+}
+
+.post-box:hover {
+  background-color: rgba(0, 166, 249, 0.2); /* Hover efekti lisamine */
+}
 </style>

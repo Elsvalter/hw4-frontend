@@ -3,7 +3,8 @@
     <div id="form">
       <h3>Update Post</h3>
       <label for="content">Body: </label>
-      <input name="content" type="text" id="content" placeholder={{post.content}} required v-model="post.content" />
+      <textarea id="content" v-model="post.content" required></textarea>
+      <div class="post-date">Posted on: {{ new Date(post.created_at).toLocaleString() }}</div>
     </div>
     <div>
       <button @click="updatePost" class="updatePost">Update Post</button>
@@ -19,8 +20,8 @@ export default {
     return {
       post: {
         id: "",
-        content : "",
-        created_at: ""
+        content: "",
+        created_at: "",
       },
     };
   },
@@ -70,15 +71,17 @@ export default {
 #form {
   max-width: 420px;
   margin: 30px auto;
-  background: rgb(167, 154, 154);
+  background: rgba(243, 237, 232, 0.847);
   text-align: left;
   padding: 40px;
   border-radius: 10px;
 }
+
 h3 {
   text-align: center;
   color: rgb(8, 110, 110);
 }
+
 label {
   color: rgb(8, 110, 110);
   display: inline-block;
@@ -88,7 +91,8 @@ label {
   letter-spacing: 1px;
   font-weight: bold;
 }
-input {
+
+textarea {
   display: block;
   padding: 10px 6px;
   width: 100%;
@@ -96,7 +100,15 @@ input {
   border: none;
   border-bottom: 1px solid white;
   color: blue;
+  min-height: 200px;
 }
+
+.post-date {
+  margin-top: 10px;
+  color: gray;
+  font-size: 0.8em;
+}
+
 button {
   background: rgb(8, 110, 110);
   border: 0;
