@@ -5,8 +5,9 @@
       <h1>All Posts</h1>
       <ul>
         <div class="item" v-for="post in posts" :key="post.id">
-          <a :href="'/api/apost/' + post.id">
-            <span class="id">{{ post.id }}</span>
+          <a class ="singlepost" :href="'/api/apost/' + post.id">
+            <span class="date">{{ new Date(post.created_at).toDateString() }}</span> <br/>
+            <span class="content">{{ post.content }}</span>
           </a>
         </div>
       </ul>
@@ -75,6 +76,26 @@ export default {
   padding: 8px;
   width: 430px;
   border: 1px solid #000;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.item {
+  background: rgb(189, 212, 199);
+  margin-bottom: 5px;
+  padding: 3px 5px;
+  border-radius: 10px;
+}
+
+#post-list li {
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 10px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
 }
 
 </style>
